@@ -2,10 +2,17 @@ package main
 
 import (
 	"github.com/SisyphianLiger/dream_mail/handler"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"log"
 )
 
 func main() {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Print("Problem with .env file")
+	}
 	app := echo.New()
 
 	emailer := handler.Emailer{}

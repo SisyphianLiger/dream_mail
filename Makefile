@@ -33,6 +33,7 @@ dep:
 	@go get github.com/labstack/echo/v4
 	@go get github.com/mailgun/mailgun-go/v4
 	@go get github.com/SparkPost/gosparkpost
+	@go get github.com/joho/godotenv
 
 startup: 
 	@rm -f go.mod

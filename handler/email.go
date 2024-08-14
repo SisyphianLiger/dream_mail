@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -15,11 +16,6 @@ import (
 )
 
 const DOMAIN_NAME string = "dreamtest.dk"
-
-var (
-	MAIL_GUN_API_KEY = os.Getenv("MAIL_GUN_API_KEY")
-	SPARK_POST_API   = os.Getenv("SPARK_POST_API")
-)
 
 type Emailer struct {
 	Senderemail   string
@@ -69,6 +65,7 @@ func (e *Emailer) ValidateSend(c echo.Context) error {
 }
 
 func (e *Emailer) SendMailGun(c echo.Context) error {
+	MAIL_GUN_API_KEY := os.Getenv("MAIL_GUN_API_KEY")
 	mg := mailgun.NewMailgun(DOMAIN_NAME, MAIL_GUN_API_KEY)
 
 	// Because MailGun-EU
@@ -83,6 +80,7 @@ func (e *Emailer) SendMailGun(c echo.Context) error {
 }
 
 func (e *Emailer) SendSparkMail() error {
+	SPARK_POST_API := os.Getenv("SPARK_POST_API")
 
 	cfg := &sp.Config{
 		BaseUrl:    "https://api.sparkpost.com",
@@ -111,6 +109,7 @@ func (e *Emailer) SendSparkMail() error {
 
 	_, _, send_err := client.Send(tx)
 	if send_err != nil {
+		log.Printf("Error Sending Email via SparkPost: %v\n", send_err)
 		return send_err
 	}
 
