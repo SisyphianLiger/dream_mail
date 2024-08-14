@@ -7,12 +7,21 @@ failover to whichever service is the fallback without affecting your customers.
 
 
 ### Interpretation
-This prompt is quite vague, as such I will attempt to define what my generic email service will do.
+This prompt is quite open, given the timeframe I will attempt to create a sender service
+with two email services, (`MailGun, SparkPost`).
 
 - Actions
     1. Happy Path: 
-        - Have Valid Sender, Receiver, Body
+        - Have Valid Sender, Receiver, Subject, Body
         - Use, first Sender API
+
+    2. Not So Happy Path
+        - Have Valid Sender, Receiver, Subject, Body
+        - Use, second Sender API
+
+    3. The Bad Place:
+        - Bad Sender Email
+        - Bad Reciever Email (Needs to be implemented)
 
     2. Tests for Potential Failures
         - Valid Sender/Receiver Email
@@ -25,7 +34,7 @@ The following will be my tools outside of the standard Golang Library
 
     1. Echo      --> To create the webserver and be able to handle errors from Handlers
     2. Htmx      --> To minimize Front End and focus purely on the prompt
-    3. Templ     --> A Go framework to create front end components
+    3. Templ     --> To create the loyout form in html that go can then run 
 
 I have also added a couple of Go dependencies that help with security and formatting
 
@@ -67,11 +76,10 @@ MailGun or SparkPost.
         - Authentication
     
 
-
 ### Running the program
 
-The two email services involved are MailGun and SparkPost. To run the code on 
-your own computer make sure to provide the follwing in and .env file.
+The two email services involved are [https://www.mailgun.com/](MailGun) and [https://developers.sparkpost.com/](SparkPost). 
+To run the code on your own computer make sure to provide the follwing in and .env file.
 
 ```
 export MAIL_GUN_API_KEY=<INSERT APIKEY>
