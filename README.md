@@ -78,7 +78,7 @@ MailGun or SparkPost.
 
 ### Running the program
 
-The two email services involved are [https://www.mailgun.com/](MailGun) and [https://developers.sparkpost.com/](SparkPost). 
+The two email services involved are [MailGun](https://www.mailgun.com/) and [SparkPost](https://developers.sparkpost.com/). 
 To run the code on your own computer make sure to provide the follwing in and .env file.
 
 ```
