@@ -49,11 +49,35 @@ Currently, I am testing for failures in the sender email. the function `Validate
 is responsible to making sure the email is correctly specified before sending it off to
 MailGun or SparkPost.
 
-### To Be Included
 
+### Desired Updates
+    1. UI
+        - Recognition of failure to send for both emailes
+        - General Layout and Design (CSS...)
+        - Modifying Layout to have potential for more options
+    2. Testing
+        - Test for Endpoints
+    3. Logic
+        - Check for valid Recipient Email
+        - Correctly specified Body/Subject
+    4. Middleware
+        - Logging (amount of emails sent)
+    5. Security
+        - limit amout of emails sent out at one time
+        - Authentication
+    
 
 
 ### Running the program
+
+The two email services involved are MailGun and SparkPost. To run the code on 
+your own computer make sure to provide the follwing in and .env file.
+
+```
+export MAIL_GUN_API_KEY=<INSERT APIKEY>
+export SPARK_POST_API=<INSERT APIKEY>
+```
+
 
 1. To initialize the Email Service run: `make startup`
 2. After startup use: `make run` 
