@@ -1,0 +1,21 @@
+package viewer
+
+templ Show() {
+        @Layout() {
+        <div>
+        <h1>Write Email</h1>    
+        <form hx-post="/emailed">
+                <label for="emailfrom">From:</label><br>
+                <input type="text" id="emailfrom" name="emailfrom"><br>
+                <label for="emailto">To:</label><br>
+                <input type="text" id="emailto" name="emailto"><br>
+                <label for="subject">Subject</label><br>
+                <input type="text" id="subject" name="subject"><br>
+                <label for="message"  >Message: </label><br>
+                <textarea name="message" id="message" rows="25" cols="50"></textarea>
+                <button >Send Mail</button>
+        </form>
+        </div>
+        }
+}
+
