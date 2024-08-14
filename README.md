@@ -13,11 +13,12 @@ with two email services, (`MailGun, SparkPost`).
 - Actions
     1. Happy Path: 
         - Have Valid Sender, Receiver, Subject, Body
-        - Use, first Sender API
+        - Use, first Sender
 
     2. Not So Happy Path
         - Have Valid Sender, Receiver, Subject, Body
-        - Use, second Sender API
+        - First Sender Fails
+        - Second Sender Works 
 
     3. The Bad Place:
         - Bad Sender Email
