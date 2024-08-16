@@ -37,8 +37,9 @@ func (cn *Connection) SendMailNoAPIs(c echo.Context) error {
 	e.Receiveremail = c.FormValue("emailto")
 	e.Subject = c.FormValue("subject")
 	e.Body = c.FormValue("message")
-
-	e.PrettyEmailerPrint()
+	
+	// Use, if you want to check that POST recieves Sender Email 
+	// e.PrettyEmailerPrint()
 	c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")
 	c.Response().WriteHeader(http.StatusOK)
 
