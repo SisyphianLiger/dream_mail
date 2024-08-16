@@ -43,7 +43,7 @@ func TestPostRequestForRC(t *testing.T) {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-			req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom="+strconv.Itoa(i)+"@dreamtest.dk&emailto=&subject=&message="))
+			req := httptest.NewRequest(http.MethodPost, "/emailed", strings.NewReader("emailfrom="+strconv.Itoa(i)+"@dreamtest.dk&emailto=&subject=&message="))
 			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
 			rec := httptest.NewRecorder()
 			c := e.NewContext(req, rec)
