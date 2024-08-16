@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/SisyphianLiger/dream_mail/handler"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"log"
 )
 
 func main() {
@@ -15,9 +16,11 @@ func main() {
 	}
 	app := echo.New()
 
-	emailer := handler.Emailer{}
+	// Remember this is the correct way
+	emailer := handler.Connection{}
 
 	app.GET("/", emailer.HandleEmailerShow)
 	app.POST("/emailed", emailer.SendMail)
+
 	app.Logger.Fatal(app.Start("localhost:9001"))
 }

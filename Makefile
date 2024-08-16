@@ -12,8 +12,10 @@ run: build
 	@./bin/$(TARGET)
 
 test: clean default
-	@go test ./...
+	@go test ./... -v
 
+testrc: clean default
+	@go test ./... -v -race
 sec: clean default
 	@gosec ./...
 

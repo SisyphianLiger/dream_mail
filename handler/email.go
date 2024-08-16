@@ -3,42 +3,26 @@ package handler
 import (
 	"context"
 	"errors"
-	"log"
-	"net/http"
-	"os"
-	"strings"
-	"time"
-
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/labstack/echo/v4"
 	"github.com/mailgun/mailgun-go/v4"
+	"log"
+	"os"
+	"strings"
+	"time"
 )
 
 const DOMAIN_NAME string = "dreamtest.dk"
 
+// Here we could add a DB connection etc
+type Connection struct{}
+
+// Payload Struct used for
 type Emailer struct {
 	Senderemail   string
 	Receiveremail string
 	Subject       string
 	Body          string
-}
-
-func (e *Emailer) SendMail(c echo.Context) error {
-
-	if val_err := e.ValidateSend(c); val_err != nil {
-		return val_err
-	}
-
-	if mg_err := e.SendMailGun(c); mg_err != nil {
-		log.Println("MailGun has failed to send trying with sparkpost...")
-		if spark_err := e.SendSparkMail(); spark_err != nil {
-			return c.HTML(http.StatusBadRequest, "<h1>Message Unsuccessful: Code not send with Mail Service Provider</h1>")
-		}
-	}
-
-	c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")
-	c.Response().WriteHeader(http.StatusOK)
-	return c.HTML(http.StatusOK, "<h1>Message Sent</h1>")
 }
 
 func (e *Emailer) ValidateSend(c echo.Context) error {

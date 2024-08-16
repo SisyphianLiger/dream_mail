@@ -1,15 +1,72 @@
 package tests
 
 import (
+	"context"
 	"github.com/SisyphianLiger/dream_mail/handler"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"os/signal"
+	"strconv"
 	"strings"
+	"sync"
 	"testing"
+	"time"
 )
 
-func Test_No_Email_Is_Nil(t *testing.T) {
+func TestPostRequestForRC(t *testing.T) {
+
+	e := echo.New()
+	email := handler.Connection{}
+
+	var wg sync.WaitGroup
+
+	e.GET("/", email.HandleEmailerShow)
+	e.POST("/emailed", email.SendMailNoAPIs)
+
+	// Creating ctx that will be used to stop the server
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+
+	// Start server
+	go func() {
+		if err := e.Start("localhost:9001"); err != nil && err != http.ErrServerClosed {
+			e.Logger.Fatal("shutting down the server")
+		}
+	}()
+
+	// May need to change this number depending on computer hardware
+	for i := 0; i < 500000; i++ {
+
+		// Here we test the Payloads
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom="+strconv.Itoa(i)+"@dreamtest.dk&emailto=&subject=&message="))
+			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
+			rec := httptest.NewRecorder()
+			c := e.NewContext(req, rec)
+
+			if sendErr := email.SendMailNoAPIs(c); sendErr != nil {
+				t.Errorf("Failed to add email info to struct")
+			}
+		}(i)
+	}
+	// Shutdown the server gracefully
+	wg.Wait()
+	stop()
+	<-ctx.Done()
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	if errSd := e.Shutdown(ctx); errSd != nil {
+		t.Errorf("Could not shutdown properly")
+	}
+
+}
+
+func TestNoEmailIsNil(t *testing.T) {
 	emailer := handler.Emailer{}
 
 	e := echo.New()
@@ -23,7 +80,7 @@ func Test_No_Email_Is_Nil(t *testing.T) {
 	}
 }
 
-func Test_To_Many_ATs_Is_Nil(t *testing.T) {
+func TestToManyATsIsNil(t *testing.T) {
 
 	emailer := handler.Emailer{}
 
@@ -38,7 +95,7 @@ func Test_To_Many_ATs_Is_Nil(t *testing.T) {
 	}
 }
 
-func Test_Domain_Is_Wrong(t *testing.T) {
+func TestDomainIsWrong(t *testing.T) {
 	emailer := handler.Emailer{}
 
 	e := echo.New()
@@ -52,7 +109,7 @@ func Test_Domain_Is_Wrong(t *testing.T) {
 	}
 }
 
-func Test_Not_An_Email_Is_Nil(t *testing.T) {
+func TestNotAnEmailIsNil(t *testing.T) {
 	emailer := handler.Emailer{}
 
 	e := echo.New()
