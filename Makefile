@@ -29,6 +29,7 @@ templ:
 	@templ generate
 
 dep:
+	@mkdir bin
 	@go mod init github.com/SisyphianLiger/dream_mail
 	@go get github.com/securego/gosec/v2/cmd/gosec
 	@go get github.com/a-h/templ
@@ -40,6 +41,7 @@ dep:
 startup: 
 	@rm -f go.mod
 	@rm -f go.sum
+	@rm -rf bin/
 	@make dep
 	@make run
 	
