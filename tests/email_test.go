@@ -2,8 +2,6 @@ package tests
 
 import (
 	"context"
-	"github.com/SisyphianLiger/dream_mail/handler"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -13,12 +11,15 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/SisyphianLiger/dream_mail/api/handlers"
+	"github.com/labstack/echo/v4"
 )
 
 func TestPostRequestForRC(t *testing.T) {
 
 	e := echo.New()
-	email := handler.Connection{}
+	email := handlers.Connection{}
 
 	var wg sync.WaitGroup
 
@@ -67,7 +68,7 @@ func TestPostRequestForRC(t *testing.T) {
 }
 
 func TestNoEmailIsNil(t *testing.T) {
-	emailer := handler.Emailer{}
+	emailer := handlers.Emailer{}
 
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=&emailto=&subject=&message="))
@@ -82,7 +83,7 @@ func TestNoEmailIsNil(t *testing.T) {
 
 func TestToManyATsIsNil(t *testing.T) {
 
-	emailer := handler.Emailer{}
+	emailer := handlers.Emailer{}
 
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=h@@@h&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))
@@ -96,7 +97,7 @@ func TestToManyATsIsNil(t *testing.T) {
 }
 
 func TestDomainIsWrong(t *testing.T) {
-	emailer := handler.Emailer{}
+	emailer := handlers.Emailer{}
 
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=hello@wrongdomain.dk&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))
@@ -110,7 +111,7 @@ func TestDomainIsWrong(t *testing.T) {
 }
 
 func TestNotAnEmailIsNil(t *testing.T) {
-	emailer := handler.Emailer{}
+	emailer := handlers.Emailer{}
 
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=hello&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))

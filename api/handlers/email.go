@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"context"
@@ -24,6 +24,9 @@ type Emailer struct {
 	Subject       string
 	Body          string
 }
+
+
+
 
 func (e *Emailer) ValidateSend(c echo.Context) error {
 

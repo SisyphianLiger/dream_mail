@@ -1,19 +1,89 @@
 package viewer
 
+
+
+
 templ Show() {
         @Layout() {
-        <div>
-        <h1>Write Email</h1>    
+            <style type="text/css">
+                .writeEmail{
+                        background-color: #FFFFFF;
+                        display: flex;
+                        padding-bottom: 20px;
+                        padding-top: 10px;
+                        margin-bottom: 2px;
+                        margin-top: 2px;
+                }
+                .formBox {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: #BFD9E3;
+                }
+                .curved-section::after {
+                  content: '';
+                  position: absolute;
+                  bottom: 0;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  width: 100px; /* Adjust width for desired curve */
+                  height: 50px; /* Adjust height for desired curve */
+                  background-color: white;
+                  border-radius: 50%;
+                }
+                .inputBar {
+                        width: 100%;
+                        margin-top: 2px;
+                        height: 30px;
+                        border-radius: 10px;
+                }
+                .message {
+                        margin-bottom: 20px;
+                        width: 95%;
+                        border-radius: 25px;
+                        padding: 4%;
+                }
+                .writeEmail {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                }
+                .centerButton {
+                        display: flex;
+                        justify-content: center;
+                        align-items:center;
+                }
+                .separateInputs {
+                        margin-bottom: 10px;
+                }
+                .messageLabel {
+                        display: block;
+                        margin-top: 20px;
+                        padding-top: 10px;
+                }
+        </style>
+
+        <h1 class="writeEmail">Write Email</h1>    
+        <div class="formBox">
         <form hx-post="/emailed">
+                <div class="separateInputs">
                 <label for="emailfrom">From:</label><br>
-                <input type="text" id="emailfrom" name="emailfrom"><br>
+                <input placeholder="Email From..." class="inputBar" type="text" id="emailfrom" name="emailfrom"><br>
+                </div>
+                <div class="separateInputs">
                 <label for="emailto">To:</label><br>
-                <input type="text" id="emailto" name="emailto"><br>
-                <label for="subject">Subject</label><br>
-                <input type="text" id="subject" name="subject"><br>
-                <label for="message"  >Message: </label><br>
-                <textarea name="message" id="message" rows="25" cols="50"></textarea>
-                <button >Send Mail</button>
+                <input placeholder="Email To..."  class="inputBar" type="text" id="emailto" name="emailto"><br>
+                </div>
+                <div class="separateInputs">
+                <label for="subject">Subject:</label><br>
+                <input placeholder="Subject..."  class="inputBar" type="text" id="subject" name="subject"><br>
+                </div>
+                <label class="messageLabel" for="message">Message: </label><br>
+                <br></br>
+                <textarea class="message" name="message" id="message" rows="25" cols="50"></textarea>
+        <div class="centerButton">
+                @button("Send Mail")
+        </div>
         </form>
         </div>
         }
