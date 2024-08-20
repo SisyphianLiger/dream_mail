@@ -67,9 +67,8 @@ func TestPostRequestForRC(t *testing.T) {
 
 }
 
-
 func InvalidEmailSuffixes(t *testing.T) {
-	testing:= []string{
+	testing := []string{
 		"user@example.comm",
 		"info@company.nt",
 		"contact@nonprofit.og",
@@ -88,7 +87,7 @@ func InvalidEmailSuffixes(t *testing.T) {
 		"contact@swiss.chh",
 		"support@empresa.es1",
 		"info@svensk.s",
-	}	
+	}
 	receiver := handlers.ReceiverEmail{}
 	for _, e := range testing {
 		if receiver.ValidEmail(e) == nil {
@@ -98,7 +97,7 @@ func InvalidEmailSuffixes(t *testing.T) {
 }
 
 func ValidEmailSuffixes(t *testing.T) {
-	testing:= []string{
+	testing := []string{
 		"user@example.com",
 		"info@company.net",
 		"contact@nonprofit.org",
@@ -140,14 +139,13 @@ func TestValidSenderEmail(t *testing.T) {
 		"contact.us@organization.gov",
 	}
 
-	for _,e := range testing {
-		_,err := handlers.SplitAndCheck(e)
+	for _, e := range testing {
+		_, err := handlers.SplitAndCheck(e)
 		if err != nil {
 			t.Errorf("Split And Check Failed on %s\n", e)
 		}
 	}
 }
-
 
 func TestInvalidSenderEmail(t *testing.T) {
 	testing := []string{
@@ -163,8 +161,8 @@ func TestInvalidSenderEmail(t *testing.T) {
 		"contact.us@or@jganization.gov",
 	}
 
-	for _,e := range testing {
-		_,err := handlers.SplitAndCheck(e)
+	for _, e := range testing {
+		_, err := handlers.SplitAndCheck(e)
 		if err == nil {
 			t.Errorf("Split And Check Failed on %s\n", e)
 		}

@@ -23,8 +23,7 @@ templ Show() {
                 .curved-section::after {
                   content: '';
                   position: absolute;
-                  bottom: 0;
-                  left: 50%;
+                  bottom: 0; left: 50%;
                   transform: translateX(-50%);
                   width: 100px; /* Adjust width for desired curve */
                   height: 50px; /* Adjust height for desired curve */
@@ -62,10 +61,23 @@ templ Show() {
                         padding-top: 10px;
                 }
         </style>
-
+        <script>
+        document.body.addEventListener('htmx:afterOnLoad', function(event) {
+                let response = JSON.parse(event.detail.xhr.responseText);
+                let errorDiv = document.getElementById('error-message');
+                errorDiv.innerHTML = '';
+                errorDiv.style.textAlign = 'center';
+                let mesg = response.messages
+                if (response.success) {
+                        errorDiv.innerHTML = '<div style="color: green;">' + response.messages.join('\n') + '</div>';
+                } else {
+                        errorDiv.innerHTML = '<div style="color: red;">' + response.messages.join('\n') + '</div>';
+                }
+                });        
+        </script>
         <h1 class="writeEmail">Write Email</h1>    
         <div class="formBox">
-        <form hx-post="/emailed">
+        <form hx-post="/emailed" hx-trigger="submit" hx-target="#error-message">
                 <div class="separateInputs">
                 <label for="emailfrom">From:</label><br>
                 <input placeholder="Email From..." class="inputBar" type="text" id="emailfrom" name="emailfrom"><br>
@@ -84,6 +96,7 @@ templ Show() {
         <div class="centerButton">
                 @button("Send Mail")
         </div>
+        <div id="error-message"></div>
         </form>
         </div>
         }

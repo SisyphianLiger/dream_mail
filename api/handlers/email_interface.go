@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"log"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -45,14 +44,13 @@ func ValidateEmails(c echo.Context) (SenderEmail, ReceiverEmail, error) {
 	if rErr != nil {
 		return SenderEmail{}, ReceiverEmail{}, rErr
 	}
-	// TODO FIX THIS PART 
+	// TODO FIX THIS PART
 	if sendvErr := sender.ValidEmail(sendEmail); sendvErr != nil {
 		return SenderEmail{}, ReceiverEmail{}, sendvErr
 	}
 	if recvErr := receiver.ValidEmail(recEmail); recvErr != nil {
 		return SenderEmail{}, ReceiverEmail{}, recvErr
 	}
-	log.Printf("Made it after rec")
 
 	// Now we can add them
 	sender.SenderEmailer = c.FormValue("emailfrom")
@@ -96,4 +94,3 @@ func SplitAndCheck(email string) (string, error) {
 
 	return email, nil
 }
-
