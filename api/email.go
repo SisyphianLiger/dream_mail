@@ -9,8 +9,6 @@ import (
 	"time"
 )
 
-const DOMAIN_NAME string = "dreamtest.dk"
-
 // Payload Struct used for
 type Emailer struct {
 	Senderemail   string
@@ -20,7 +18,7 @@ type Emailer struct {
 }
 
 func (e *Emailer) SendMailGun(c echo.Context, api *ApiConfig) error {
-	mg := mailgun.NewMailgun(DOMAIN_NAME, api.MailGunApi)
+	mg := mailgun.NewMailgun(api.DomainName, api.MailGunApi)
 
 	// Because MailGun-EU
 	mg.SetAPIBase("https://api.eu.mailgun.net/v3")

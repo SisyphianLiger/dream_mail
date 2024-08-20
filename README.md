@@ -79,15 +79,16 @@ proper tld protocol based on a self generated list.
 ### Running the program
 
 The two email services involved are [MailGun](https://www.mailgun.com/) and [SparkPost](https://developers.sparkpost.com/). 
-To run the code on your own computer make sure to provide the follwing in and .env file.
+To run the code on your own computer make sure to provide the follwing in and .env file, and specify the domain name ending
+used to send the mail.
 
 ```
 export MAIL_GUN_API_KEY=<INSERT APIKEY>
 export SPARK_POST_API=<INSERT APIKEY>
+export DOMAIN_NAME=<DOMAIN_NAME>
 ```
-
 
 1. To initialize the Email Service run: `make startup`
 2. After startup use: `make run` 
 
-The Server will be hosted on localhost:9001
+The Server will be hosted on 127.0.0.1:9001

@@ -17,6 +17,7 @@ import (
 type ApiConfig struct{
 	MailGunApi string
 	SparkPost string
+	DomainName string
 }
 
 func StartServer() {
@@ -54,8 +55,14 @@ func (api *ApiConfig) SetValidEnv() {
 		log.Fatal("Unable to Load MailGun API")
 	}
 
+	dn := os.Getenv("DOMAIN_NAME")
+	if dn == "" {
+		log.Fatal("Unable to Load MailGun API")
+	}
+
 	api.MailGunApi = mg
 	api.SparkPost = sp
+	api.DomainName = dn
 }
 
 
