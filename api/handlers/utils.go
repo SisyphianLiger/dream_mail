@@ -13,13 +13,6 @@ func render(c echo.Context, component templ.Component) error {
 	return component.Render(c.Request().Context(), c.Response())
 }
 
-func (e *Emailer) PrettyEmailerPrint() {
-	log.Printf("Sender Email: %s\n", e.Senderemail)
-	log.Printf("Receiver Email: %s\n", e.Receiveremail)
-	log.Printf("Subject is: %s\n", e.Subject)
-	log.Printf("Body: %s\n", e.Body)
-}
-
 func (cn *Connection) SendMailNoAPIs(c echo.Context) error {
 	e := Emailer{}
 	e.Senderemail = c.FormValue("emailfrom")
@@ -44,6 +37,13 @@ func (cn *Connection) SendMailNoAPIs(c echo.Context) error {
 	c.Response().WriteHeader(http.StatusOK)
 
 	return nil
+}
+
+func (e *Emailer) PrettyEmailerPrint() {
+	log.Printf("Sender Email: %s\n", e.Senderemail)
+	log.Printf("Receiver Email: %s\n", e.Receiveremail)
+	log.Printf("Subject is: %s\n", e.Subject)
+	log.Printf("Body: %s\n", e.Body)
 }
 
 func (e *Emailer) LoadPayload(se SenderEmail, re ReceiverEmail, m Message) {

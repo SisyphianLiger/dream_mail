@@ -22,6 +22,8 @@ sec: clean default
 fmt: clean default
 	@go fmt ./...
 
+pretty: fmt sec build
+
 clean:
 	@rm -f ./main
 

@@ -1,17 +1,17 @@
 package handlers
 
 import (
-	"log"
-	"net/http"
 	"github.com/SisyphianLiger/dream_mail/view"
 	"github.com/labstack/echo/v4"
+	"log"
+	"net/http"
 )
 
 // Here we could add a DB connection etc
 type Connection struct{}
 
 type Response struct {
-	Success bool `json:"success"`
+	Success  bool     `json:"success"`
 	Messages []string `json:"messages"`
 }
 
@@ -25,9 +25,9 @@ func (cn *Connection) SendMail(c echo.Context) error {
 
 	snd, rec, err := ValidateEmails(c)
 	if err != nil {
-		errorMsg := []string{err.Error(),}
+		errorMsg := []string{err.Error()}
 		return c.JSON(http.StatusBadRequest, Response{
-			Success: false,
+			Success:  false,
 			Messages: errorMsg,
 		})
 	}
@@ -45,15 +45,15 @@ func (cn *Connection) SendMail(c echo.Context) error {
 		log.Println("MailGun has failed to send trying with sparkpost...")
 
 		if spark_err := e.SendSparkMail(); spark_err != nil {
-			errorMsg := []string{"MailGunFailure: " + mg_err.Error(), "SparkPost Error: "+ spark_err.Error(), }
+			errorMsg := []string{"MailGunFailure: " + mg_err.Error(), "SparkPost Error: " + spark_err.Error()}
 			return c.JSON(http.StatusServiceUnavailable, Response{
-				Success: false,
+				Success:  false,
 				Messages: errorMsg,
 			})
 		}
 	}
 	return c.JSON(http.StatusOK, Response{
-		Success: true,
-		Messages:[]string{"Message Send Successfully!"},
+		Success:  true,
+		Messages: []string{"Message Send Successfully!"},
 	})
 }

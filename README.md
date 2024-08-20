@@ -55,14 +55,13 @@ to process user input from the front end.
 ```
 
 ### Testing
-Currently, I am testing for failures in the sender email. the function `ValidateSend()` 
-is responsible to making sure the email is correctly specified before sending it off to
-MailGun or SparkPost.
-
+Three areas of testing occur, first, testing for any race conditions that could 
+cause incorrect data to be sent to a email. Second, making sure that the emails 
+are correctly specified. Third, making sure that the reciever email follows a 
+proper tld protocol based on a self generated list.
 
 ### Desired Updates
     1. UI
-        - Recognition of failure to send for both emailes
         - General Layout and Design (CSS...)
         - Modifying Layout to have potential for more options
     2. Testing
