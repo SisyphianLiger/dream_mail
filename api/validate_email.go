@@ -1,9 +1,8 @@
-package handlers
+package api
 
 import (
 	"errors"
 	"strings"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,11 +19,6 @@ type ReceiverEmail struct {
 type Message struct {
 	Subject string
 	Body    string
-}
-
-type SendEmail interface {
-	SendMailGun() error
-	SendSparkPost() error
 }
 
 func ValidateEmails(c echo.Context) (SenderEmail, ReceiverEmail, error) {

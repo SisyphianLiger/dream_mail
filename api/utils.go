@@ -1,4 +1,4 @@
-package handlers
+package api
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ func render(c echo.Context, component templ.Component) error {
 	return component.Render(c.Request().Context(), c.Response())
 }
 
-func (cn *Connection) SendMailNoAPIs(c echo.Context) error {
+func (api *ApiConfig) SendMailNoAPIs(c echo.Context) error {
 	e := Emailer{}
 	e.Senderemail = c.FormValue("emailfrom")
 

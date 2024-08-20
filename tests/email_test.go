@@ -11,15 +11,14 @@ import (
 	"sync"
 	"testing"
 	"time"
-
-	"github.com/SisyphianLiger/dream_mail/api/handlers"
+	"github.com/SisyphianLiger/dream_mail/api"
 	"github.com/labstack/echo/v4"
 )
 
 func TestPostRequestForRC(t *testing.T) {
 
 	e := echo.New()
-	email := handlers.Connection{}
+	email := api.ApiConfig{}
 
 	var wg sync.WaitGroup
 
@@ -88,7 +87,7 @@ func InvalidEmailSuffixes(t *testing.T) {
 		"support@empresa.es1",
 		"info@svensk.s",
 	}
-	receiver := handlers.ReceiverEmail{}
+	receiver := api.ReceiverEmail{}
 	for _, e := range testing {
 		if receiver.ValidEmail(e) == nil {
 			t.Errorf("Valid Email failed on correct email: %s\n", e)
@@ -117,7 +116,7 @@ func ValidEmailSuffixes(t *testing.T) {
 		"support@empresa.es",
 		"info@svensk.se",
 	}
-	receiver := handlers.ReceiverEmail{}
+	receiver := api.ReceiverEmail{}
 	for _, e := range testing {
 		if receiver.ValidEmail(e) == nil {
 			t.Errorf("Valid Email failed on correct email: %s\n", e)
@@ -140,7 +139,7 @@ func TestValidSenderEmail(t *testing.T) {
 	}
 
 	for _, e := range testing {
-		_, err := handlers.SplitAndCheck(e)
+		_, err := api.SplitAndCheck(e)
 		if err != nil {
 			t.Errorf("Split And Check Failed on %s\n", e)
 		}
@@ -162,7 +161,7 @@ func TestInvalidSenderEmail(t *testing.T) {
 	}
 
 	for _, e := range testing {
-		_, err := handlers.SplitAndCheck(e)
+		_, err := api.SplitAndCheck(e)
 		if err == nil {
 			t.Errorf("Split And Check Failed on %s\n", e)
 		}

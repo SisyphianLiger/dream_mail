@@ -1,4 +1,4 @@
-package handlers
+package api
 
 import (
 	"github.com/SisyphianLiger/dream_mail/view"
@@ -7,19 +7,17 @@ import (
 	"net/http"
 )
 
-// Here we could add a DB connection etc
-type Connection struct{}
 
 type Response struct {
 	Success  bool     `json:"success"`
 	Messages []string `json:"messages"`
 }
 
-func (cn *Connection) HandleEmailerShow(c echo.Context) error {
+func (api *ApiConfig) HandleEmailerShow(c echo.Context) error {
 	return render(c, viewer.Show())
 }
 
-func (cn *Connection) SendMail(c echo.Context) error {
+func (api *ApiConfig) SendMail(c echo.Context) error {
 
 	e := Emailer{}
 
@@ -40,11 +38,11 @@ func (cn *Connection) SendMail(c echo.Context) error {
 	e.LoadPayload(snd, rec, message)
 
 	// LAST STEP REORGANIZE FAILURES
-	if mg_err := e.SendMailGun(c); mg_err != nil {
+	if mg_err := e.SendMailGun(c,api); mg_err != nil {
 
 		log.Println("MailGun has failed to send trying with sparkpost...")
 
-		if spark_err := e.SendSparkMail(); spark_err != nil {
+		if spark_err := e.SendSparkMail(api); spark_err != nil {
 			errorMsg := []string{"MailGunFailure: " + mg_err.Error(), "SparkPost Error: " + spark_err.Error()}
 			return c.JSON(http.StatusServiceUnavailable, Response{
 				Success:  false,

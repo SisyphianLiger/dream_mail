@@ -1,4 +1,4 @@
-package handlers
+package api
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/mailgun/mailgun-go/v4"
 	"log"
-	"os"
 	"time"
 )
 
@@ -20,9 +19,8 @@ type Emailer struct {
 	Body          string
 }
 
-func (e *Emailer) SendMailGun(c echo.Context) error {
-	MAIL_GUN_API_KEY := os.Getenv("MAIL_GUN_API_KEY")
-	mg := mailgun.NewMailgun(DOMAIN_NAME, MAIL_GUN_API_KEY)
+func (e *Emailer) SendMailGun(c echo.Context, api *ApiConfig) error {
+	mg := mailgun.NewMailgun(DOMAIN_NAME, api.MailGunApi)
 
 	// Because MailGun-EU
 	mg.SetAPIBase("https://api.eu.mailgun.net/v3")
@@ -35,12 +33,11 @@ func (e *Emailer) SendMailGun(c echo.Context) error {
 	return err
 }
 
-func (e *Emailer) SendSparkMail() error {
-	SPARK_POST_API := os.Getenv("SPARK_POST_API")
+func (e *Emailer) SendSparkMail(api *ApiConfig) error {
 
 	cfg := &sp.Config{
 		BaseUrl:    "https://api.sparkpost.com",
-		ApiKey:     SPARK_POST_API,
+		ApiKey:     api.SparkPost,
 		ApiVersion: 1,
 	}
 
