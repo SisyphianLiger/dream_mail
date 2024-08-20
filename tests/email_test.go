@@ -67,59 +67,106 @@ func TestPostRequestForRC(t *testing.T) {
 
 }
 
-func TestNoEmailIsNil(t *testing.T) {
-	emailer := handlers.Emailer{}
 
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=&emailto=&subject=&message="))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-
-	if err := emailer.ValidateSend(c); err == nil {
-		t.Errorf("Function has incorrectly passed Sender email")
+func InvalidEmailSuffixes(t *testing.T) {
+	testing:= []string{
+		"user@example.comm",
+		"info@company.nt",
+		"contact@nonprofit.og",
+		"student@university.ed",
+		"official@department.gv",
+		"developer@startup.io0",
+		"support@business.co.uk1",
+		"service@provider.dd",
+		"client@enterprise.frr",
+		"customer@store.jp1",
+		"sales@shop.au1",
+		"help@assistance.c",
+		"admin@website.itt",
+		"info@company.nl1",
+		"user@mail.r",
+		"contact@swiss.chh",
+		"support@empresa.es1",
+		"info@svensk.s",
+	}	
+	receiver := handlers.ReceiverEmail{}
+	for _, e := range testing {
+		if receiver.ValidEmail(e) == nil {
+			t.Errorf("Valid Email failed on correct email: %s\n", e)
+		}
 	}
 }
 
-func TestToManyATsIsNil(t *testing.T) {
-
-	emailer := handlers.Emailer{}
-
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=h@@@h&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-
-	if err := emailer.ValidateSend(c); err == nil {
-		t.Errorf("Function has incorrectly passed Sender email")
+func ValidEmailSuffixes(t *testing.T) {
+	testing:= []string{
+		"user@example.com",
+		"info@company.net",
+		"contact@nonprofit.org",
+		"student@university.edu",
+		"official@department.gov",
+		"developer@startup.io",
+		"support@business.co.uk",
+		"service@provider.de",
+		"client@enterprise.fr",
+		"customer@store.jp",
+		"sales@shop.au",
+		"help@assistance.ca",
+		"admin@website.it",
+		"info@company.nl",
+		"user@mail.ru",
+		"contact@swiss.ch",
+		"support@empresa.es",
+		"info@svensk.se",
+	}
+	receiver := handlers.ReceiverEmail{}
+	for _, e := range testing {
+		if receiver.ValidEmail(e) == nil {
+			t.Errorf("Valid Email failed on correct email: %s\n", e)
+		}
 	}
 }
 
-func TestDomainIsWrong(t *testing.T) {
-	emailer := handlers.Emailer{}
+func TestValidSenderEmail(t *testing.T) {
+	testing := []string{
+		"user@example.com",
+		"john.doe@company.org",
+		"info@website.net",
+		"test123@domain.co.uk",
+		"first.last@subdomain.example.com",
+		"user-name@provider.edu",
+		"email2020@site.io",
+		"support@business-name.com",
+		"no_reply@newsletter.info",
+		"contact.us@organization.gov",
+	}
 
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=hello@wrongdomain.dk&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
-
-	if err := emailer.ValidateSend(c); err == nil {
-		t.Errorf("Function has incorrectly passed Sender email")
+	for _,e := range testing {
+		_,err := handlers.SplitAndCheck(e)
+		if err != nil {
+			t.Errorf("Split And Check Failed on %s\n", e)
+		}
 	}
 }
 
-func TestNotAnEmailIsNil(t *testing.T) {
-	emailer := handlers.Emailer{}
 
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader("emailfrom=hello&emailto=ryan.m.williams.12@gmail.com&subject=Test&message=Hello"))
-	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationForm)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
+func TestInvalidSenderEmail(t *testing.T) {
+	testing := []string{
+		"user@example@.com",
+		"john.doe@company@.org",
+		"@info@website.net",
+		"@jtest123@domain.co.uk",
+		"f@jirst.last@subdomain.example.com",
+		"user-name@@jprovider.edu",
+		"email2020@j@site.io",
+		"support@bus@jiness-name.com",
+		"no_reply@new@jsletter.info",
+		"contact.us@or@jganization.gov",
+	}
 
-	if err := emailer.ValidateSend(c); err == nil {
-		t.Errorf("Function has incorrectly passed Sender email")
+	for _,e := range testing {
+		_,err := handlers.SplitAndCheck(e)
+		if err == nil {
+			t.Errorf("Split And Check Failed on %s\n", e)
+		}
 	}
 }

@@ -1,7 +1,9 @@
 package viewer
 
+var layout = templ.NewOnceHandle()
 
 templ Layout() {
+        @layout.Once(){
         <!DOCTYPE html>
         <html lang="en">
             <head>
@@ -19,4 +21,5 @@ templ Layout() {
                 { children... }
             </body>
         </html>
+        }
 }

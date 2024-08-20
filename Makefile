@@ -2,11 +2,11 @@ TARGET = main
 
 default: $(TARGET)
 $(TARGET):
-	@go build -o bin/$(TARGET) cmd/main.go
+	@go build -o bin/$(TARGET) main.go
 
 build: clean 
 	@templ generate
-	@go build -o bin/$(TARGET) cmd/main.go
+	@go build -o bin/$(TARGET) main.go
 
 run: build
 	@./bin/$(TARGET)

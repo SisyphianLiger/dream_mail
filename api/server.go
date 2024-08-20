@@ -1,15 +1,14 @@
 package api
 
-
 import (
-	"log"
 	"github.com/SisyphianLiger/dream_mail/api/handlers"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"log"
 )
 
 func StartServer() {
-	
+
 	err := godotenv.Load()
 
 	if err != nil {
@@ -23,6 +22,5 @@ func StartServer() {
 	app.GET("/", emailer.HandleEmailerShow)
 	app.POST("/emailed", emailer.SendMail)
 
-	
 	app.Logger.Fatal(app.Start("localhost:9001"))
 }

@@ -2,20 +2,15 @@ package handlers
 
 import (
 	"context"
-	"errors"
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/labstack/echo/v4"
 	"github.com/mailgun/mailgun-go/v4"
 	"log"
 	"os"
-	"strings"
 	"time"
 )
 
 const DOMAIN_NAME string = "dreamtest.dk"
-
-// Here we could add a DB connection etc
-type Connection struct{}
 
 // Payload Struct used for
 type Emailer struct {
@@ -23,31 +18,6 @@ type Emailer struct {
 	Receiveremail string
 	Subject       string
 	Body          string
-}
-
-
-
-
-func (e *Emailer) ValidateSend(c echo.Context) error {
-
-	// Need to check for domain (dreamtest.dk)
-	e.Senderemail = c.FormValue("emailfrom")
-
-	senderDomain := strings.Split(e.Senderemail, "@")
-
-	if len(senderDomain) != 2 {
-		return errors.New("The Sender Email is incorrectly specified, check for @'s")
-	}
-
-	if senderDomain[1] != "dreamtest.dk" {
-		return errors.New("Sender Domain not correctly specified, please use @dreamtest.dk")
-	}
-
-	e.Receiveremail = c.FormValue("emailto")
-	e.Subject = c.FormValue("subject")
-	e.Body = c.FormValue("message")
-
-	return nil
 }
 
 func (e *Emailer) SendMailGun(c echo.Context) error {
