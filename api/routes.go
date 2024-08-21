@@ -21,7 +21,7 @@ func (api *ApiConfig) SendMail(c echo.Context) error {
 
 	e := Emailer{}
 
-	snd, rec, err := ValidateEmails(c)
+	snd, rec, err := ValidateEmails(c, api.DomainName)
 	if err != nil {
 		errorMsg := []string{err.Error()}
 		return c.JSON(http.StatusBadRequest, Response{

@@ -21,7 +21,7 @@ type Message struct {
 	Body    string
 }
 
-func ValidateEmails(c echo.Context) (SenderEmail, ReceiverEmail, error) {
+func ValidateEmails(c echo.Context, domain string) (SenderEmail, ReceiverEmail, error) {
 
 	sender := SenderEmail{}
 	receiver := ReceiverEmail{}
@@ -39,7 +39,7 @@ func ValidateEmails(c echo.Context) (SenderEmail, ReceiverEmail, error) {
 		return SenderEmail{}, ReceiverEmail{}, rErr
 	}
 	// TODO FIX THIS PART
-	if sendvErr := sender.ValidEmail(sendEmail); sendvErr != nil {
+	if sendvErr := sender.ValidEmail(sendEmail, domain); sendvErr != nil {
 		return SenderEmail{}, ReceiverEmail{}, sendvErr
 	}
 	if recvErr := receiver.ValidEmail(recEmail); recvErr != nil {
@@ -67,10 +67,10 @@ func (re *ReceiverEmail) ValidEmail(Estr string) error {
 	return errors.New("Incorrect top level domain please check the tld")
 }
 
-func (se *SenderEmail) ValidEmail(Estr string) error {
+func (se *SenderEmail) ValidEmail(Estr string, domain string) error {
 
 	// Add logic to validate the email
-	if !strings.HasSuffix(Estr, "@dreamtest.dk") {
+	if !strings.HasSuffix(Estr, "@" + domain) {
 		return errors.New("Sender Domain not correctly specified, please use @dreamtest.dk")
 	}
 
