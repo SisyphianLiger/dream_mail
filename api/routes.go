@@ -7,7 +7,6 @@ import (
 	"net/http"
 )
 
-
 type Response struct {
 	Success  bool     `json:"success"`
 	Messages []string `json:"messages"`
@@ -38,7 +37,7 @@ func (api *ApiConfig) SendMail(c echo.Context) error {
 	e.LoadPayload(snd, rec, message)
 
 	// LAST STEP REORGANIZE FAILURES
-	if mg_err := e.SendMailGun(c,api); mg_err != nil {
+	if mg_err := e.SendMailGun(c, api); mg_err != nil {
 
 		log.Println("MailGun has failed to send trying with sparkpost...")
 

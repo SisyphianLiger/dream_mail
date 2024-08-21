@@ -1,10 +1,10 @@
 package api
 
 import (
-	"log"
-	"os"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"log"
+	"os"
 )
 
 /*
@@ -14,9 +14,9 @@ import (
 */
 
 // Here we could add a DB connection etc
-type ApiConfig struct{
+type ApiConfig struct {
 	MailGunApi string
-	SparkPost string
+	SparkPost  string
 	DomainName string
 }
 
@@ -44,7 +44,7 @@ func (api *ApiConfig) SetValidEnv() {
 	if err != nil {
 		log.Fatal("Environment Variables not accessable")
 	}
-	
+
 	mg := os.Getenv("MAIL_GUN_API_KEY")
 	if mg == "" {
 		log.Fatal("Unable to Load MailGun API")
@@ -64,5 +64,3 @@ func (api *ApiConfig) SetValidEnv() {
 	api.SparkPost = sp
 	api.DomainName = dn
 }
-
-

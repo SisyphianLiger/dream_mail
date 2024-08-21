@@ -2,6 +2,8 @@ package tests
 
 import (
 	"context"
+	"github.com/SisyphianLiger/dream_mail/api"
+	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -11,8 +13,6 @@ import (
 	"sync"
 	"testing"
 	"time"
-	"github.com/SisyphianLiger/dream_mail/api"
-	"github.com/labstack/echo/v4"
 )
 
 func TestPostRequestForRC(t *testing.T) {

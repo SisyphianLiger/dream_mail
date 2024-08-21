@@ -2,8 +2,8 @@ package api
 
 import (
 	"errors"
-	"strings"
 	"github.com/labstack/echo/v4"
+	"strings"
 )
 
 // Verify The Emails
@@ -70,7 +70,7 @@ func (re *ReceiverEmail) ValidEmail(Estr string) error {
 func (se *SenderEmail) ValidEmail(Estr string, domain string) error {
 
 	// Add logic to validate the email
-	if !strings.HasSuffix(Estr, "@" + domain) {
+	if !strings.HasSuffix(Estr, "@"+domain) {
 		return errors.New("Sender Domain not correctly specified, please use @dreamtest.dk")
 	}
 
